@@ -1,28 +1,80 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app id="inspire">
+
+    <the-navigation-drawer
+            :drawer="drawer"
+            :eisen-version="eisenVersion"
+            :eisen-modules="eisenModules"
+
+            :current-phase="currentPhase"
+            :current-task="currentTask"
+    ></the-navigation-drawer>
+
+    <the-app-bar
+            v-on:navdrawer-toggle="drawer = !drawer"
+    ></the-app-bar>
+
+    <v-content>
+      <the-configuration-workflow
+              :tasks="tasks"
+
+              v-on:task-changed="currentTask = $event"
+              v-on:phase-changed="currentPhase = $event"
+      ></the-configuration-workflow>
+
+    </v-content>
+
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+  import TheNavigationDrawer from './components/TheNavigationDrawer'
+  import TheAppBar from './components/TheAppBar'
+  import TheConfigurationWorkflow from './components/TheConfigurationWorkflow'
 
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  import $ from 'jquery'
+
+
+  export default {
+    props: {
+      source: String,
+    },
+
+    components: {
+      TheAppBar,
+      TheNavigationDrawer,
+      TheConfigurationWorkflow
+    },
+
+    data: () => ({
+      eisenVersion: 'v0.0.1',
+
+      drawer: true,
+
+      eisenModules: null,
+
+      tasks: [
+        {name: 'General', phases: ['Hyperparameters', 'Models']},
+        {name: 'Training', phases: ['Datasets', 'Readers', 'Transforms', 'Losses', 'Metrics', 'Optimizer', 'Workflow', 'Hooks']},
+        {name: 'Validation', phases: ['Datasets', 'Readers', 'Transforms', 'Metrics', 'Workflow', 'Hooks']},
+        {name: 'Testing', phases: ['Datasets', 'Readers', 'Transforms', 'Metrics', 'Workflow', 'Hooks']},
+        {name: 'Serving', phases: ['Readers', 'Transforms', 'Workflow']},
+      ],
+
+      currentTask: null,
+      currentPhase: null,
+
+    }),
+    created () {
+      this.$vuetify.theme.dark = true;
+
+      $.getJSON('https://a.uguu.se/ESMejemVZRA8_eisen_modules_' + this.eisenVersion + '.json', (data) => {
+        this.eisenModules = data
+      });
+    },
+    methods: {
+      // methods managing the view
+
+    }
   }
-}
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
