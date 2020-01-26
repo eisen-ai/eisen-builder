@@ -24,7 +24,16 @@
               v-on:phase-changed="currentPhase = $event"
               v-on:config-updated="currentConfig = $event"
       ></the-configuration-workflow>
+    </v-content>
 
+    <v-content v-else>
+      <div style="text-align:center;">
+        <v-card>
+          <v-card-text>
+            Loading content ...
+          </v-card-text>
+        </v-card>
+      </div>
     </v-content>
 
   </v-app>
