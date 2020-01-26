@@ -87,11 +87,9 @@
 
                         </v-container>
 
-                        <v-btn dark @click="goToPrevStep" class="ma-2">Previous</v-btn>
+                        <v-btn dark @click="goToPrevStep" class="ma-2" v-if="step > 0">Previous</v-btn>
 
-                        <v-btn light @click="goToNextStep" class="ma-2">Next</v-btn>
-
-
+                        <v-btn light @click="goToNextStep" class="ma-2" v-if="step < (task.phases.length - 1)">Next</v-btn>
 
                     </v-stepper-content>
                 </v-stepper>
