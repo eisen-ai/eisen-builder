@@ -7,11 +7,12 @@
             stateless
     >
         <v-list dense>
-            <v-subheader class="mt-4 grey--text text--darken-1"> Modules for {{ currentPhase }}</v-subheader>
+            <v-subheader class="text--lighten-1"> Modules implementing {{ currentPhase }} </v-subheader>
 
             <draggable
                     v-model="itemsToDisplay"
                     :group="{pull: 'clone', put: false }"
+                    :clone="handleClone"
                     ghost-class="ghost"
                     :sort="true"
             >
@@ -21,15 +22,10 @@
                             :key="item.type"
                             link
                     >
-
-
-                        <v-list-item-action>
-                            <v-icon></v-icon>
-                        </v-list-item-action>
                         <v-list-item-content>
-                            <v-list-item-title>
-                                {{ item.type.split('.')[item.type.split('.').length-1] }}
-                            </v-list-item-title>
+                            <v-card outlined light>
+                                <v-card-text>{{ item.type.split('.')[item.type.split('.').length-1] }}</v-card-text>
+                            </v-card>
                         </v-list-item-content>
                     </v-list-item>
 
@@ -58,27 +54,24 @@
             draggable,
         },
         data: () => ({
-            items: [
-                { icon: 'trending_up', text: 'Most Popular' },
-                { icon: 'subscriptions', text: 'Subscriptions' },
-                { icon: 'history', text: 'History' },
-                { icon: 'featured_play_list', text: 'Playlists' },
-                { icon: 'watch_later', text: 'Watch Later' },
-            ],
-            items2: [
-                { picture: 28, text: 'Joseph' },
-                { picture: 38, text: 'Apple' },
-                { picture: 48, text: 'Xbox Ahoy' },
-                { picture: 58, text: 'Nokia' },
-                { picture: 78, text: 'MKBHD' },
-            ],
         }),
-        computed: {
-            // a computed getter
+        methods: {
+            handleClone (item) {
+                // Create a fresh copy of item
+                let cloneMe = JSON.parse(JSON.stringify(item));
 
+                this.$delete(cloneMe, 'uid');
+
+                return cloneMe;
+            },
+        },
+        computed: {
             itemsToDisplay: function () {
-                // `this` points to the vm instance
-                return this.eisenModules[this.currentPhase.toLowerCase()]
+                if (this.eisenModules === undefined) {
+                    return [{type: 'Nothing to Display'}]
+                } else {
+                    return this.eisenModules[this.currentPhase.toLowerCase()]
+                }
             }
         }
     }

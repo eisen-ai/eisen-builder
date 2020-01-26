@@ -15,7 +15,7 @@
         <div class="text-center">
             <v-menu offset-y>
                 <template v-slot:activator="{ on }">
-                    <v-btn light v-on="on">
+                    <v-btn dark v-on="on" class="ma-2">
                         {{ eisenVersions[index] }}
                     </v-btn>
                 </template>
@@ -23,12 +23,15 @@
                     <v-list-item
                             v-for="(item, idx) in eisenVersions"
                             :key="idx"
-                            @click="index = idx"
+                            @click="changeVersion(idx)"
                     >
                         <v-list-item-title>{{ item }}</v-list-item-title>
                     </v-list-item>
                 </v-list>
             </v-menu>
+            <v-btn light @click="$emit('get-config')" class="ma-2">
+                Get config
+            </v-btn>
         </div>
     </v-app-bar>
 </template>
@@ -38,8 +41,14 @@
         name: "TheAppBar",
         data: () => ({
             index: 0,
-            eisenVersions: ['v0.0.2', 'v0.0.1']
-        })
+            eisenVersions: ['v0.0.1']
+        }),
+        methods: {
+            changeVersion (idx) {
+                this.$emit('change-version', this.eisenVersions[idx])
+                this.index = idx
+            },
+        },
     }
 </script>
 
