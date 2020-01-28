@@ -58,8 +58,8 @@
     }
 
     if (structure.type.includes('list')) {
-      finalValue = finalValue.replace(/'/g, '"');
-      finalValue = finalValue.replace(/ /g, "");
+      finalValue = finalValue.toString().replace(/'/g, '"');
+      finalValue = finalValue.toString().replace(/ /g, "");
 
       if (finalValue === "") {
         finalValue = []
@@ -162,7 +162,7 @@
       getEisenModules: function () {
         this.eisenModules = undefined;
 
-        $.getJSON('https://transfer.sh/7Rn9a/eisen_modules_' + this.eisenVersion + '.json', (data) => {
+        $.getJSON('http://builder.eisen.ai/json/eisen_modules_' + this.eisenVersion + '.json', (data) => {
           this.eisenModules = data
         });
       },
