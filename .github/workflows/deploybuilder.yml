@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Deploy Builder
 
 on: [push]
 
@@ -26,4 +26,4 @@ jobs:
     - name: Deploy Builder
       run: |
           gcloud components install core --quiet
-          gsutil cp dist/* gs://builder.eisen.ai/
+          gsutil cp -r dist/* gs://builder.eisen.ai/
