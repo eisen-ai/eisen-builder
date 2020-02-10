@@ -1,5 +1,5 @@
 <template>
-    <v-tabs @change="changeTab($event)" v-model="currentTask">
+    <v-tabs @change="changeTab($event)" v-model="currentTask" background-color="rgba(255, 255, 255, 0.7)">
 
         <v-tab v-for="(task, i) in tasks" :key="i"> {{task.name}} </v-tab>
 
@@ -15,8 +15,8 @@
 
                     <v-stepper-content :step="j">
 
-                        <v-container fluid>
-                            <v-expansion-panels light>
+                        <v-container fluid >
+                            <v-expansion-panels>
                                 <draggable
                                         v-model="currItems"
                                         :group="{pull: 'move', put: true}"
@@ -27,7 +27,6 @@
                                     <v-expansion-panel
                                             v-for="(item, k) in currItems"
                                             :key="k"
-                                            light
                                     >
                                         <v-expansion-panel-header>
                                             {{ item.type.split('.')[item.type.split('.').length-1] }}
@@ -73,7 +72,7 @@
                                         </v-expansion-panel-content>
                                     </v-expansion-panel>
 
-                                    <v-card outlined min-width="800" dark>
+                                    <v-card outlined min-width="800">
                                         <v-card-text v-if="currItems.length < task.max_components[j]">
                                             <div style="text-align:center;"> Drag&Drop modules from the list on the left </div>
                                         </v-card-text>

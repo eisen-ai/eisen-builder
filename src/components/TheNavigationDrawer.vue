@@ -3,7 +3,7 @@
             v-model="drawer"
             clipped
             app
-            color=grey.darken-1
+            color="rgba(255, 255, 255, 0.7)"
             stateless
     >
         <v-list dense>
@@ -23,8 +23,8 @@
                             link
                     >
                         <v-list-item-content>
-                            <v-card outlined light>
-                                <v-card-text>{{ item.type.split('.')[item.type.split('.').length-1] }}</v-card-text>
+                            <v-card outlined color="black">
+                                <v-card-text style="color: white">{{ item.type.split('.')[item.type.split('.').length-1] }}</v-card-text>
                             </v-card>
                         </v-list-item-content>
                     </v-list-item>

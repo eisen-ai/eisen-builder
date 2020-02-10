@@ -2,10 +2,10 @@
     <v-app-bar
             app
             clipped-left
-            color=black
+            color="rgba(255, 255, 255, 0.9)"
             dense
     >
-        <v-app-bar-nav-icon @click.stop="$emit('navdrawer-toggle')" />
+        <v-app-bar-nav-icon @click.stop="$emit('navdrawer-toggle')" color="black" />
 
         <v-toolbar-title class="mr-12 align-center">
             <span class="title">EISEN | Builder</span>
@@ -37,18 +37,33 @@
 </template>
 
 <script>
+    import $ from 'jquery'
+
     export default {
         name: "TheAppBar",
         data: () => ({
             index: 0,
-            eisenVersions: ['v0.0.1']
+            eisenVersions: ['v0.0.2']
         }),
         methods: {
             changeVersion (idx) {
                 this.$emit('change-version', this.eisenVersions[idx])
                 this.index = idx
             },
+
+            getEisenVersions: function () {
+                this.eisenVersions = [];
+
+                $.getJSON('http://builder.eisen.ai/json/versions.json', (data) => {
+                    this.eisenVersions = data
+                });
+            },
         },
+        created () {
+            this.getEisenVersions();
+            this.changeVersion(0);
+        },
+
     }
 </script>
 

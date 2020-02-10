@@ -1,6 +1,5 @@
 <template>
-  <v-app id="inspire">
-
+  <v-app id="inspire" style=" background: rgba(0,0,0,0);">
     <the-navigation-drawer
             :drawer="drawer && eisenModules !== undefined"
             :eisen-version="eisenVersion"
@@ -35,7 +34,6 @@
         </v-card>
       </div>
     </v-content>
-
   </v-app>
 </template>
 
@@ -112,7 +110,7 @@
     },
 
     data: () => ({
-      eisenVersion: 'v0.0.1',
+      eisenVersion: 'latest',
 
       drawer: true,
 
@@ -153,7 +151,7 @@
 
     }),
     created () {
-      this.$vuetify.theme.dark = true;
+      this.$vuetify.theme.dark = false;
 
       this.getEisenModules()
     },
@@ -225,3 +223,7 @@
     }
   }
 </script>
+
+
+<style>
+</style>
