@@ -16,12 +16,12 @@
             <v-menu offset-y>
                 <template v-slot:activator="{ on }">
                     <v-btn dark v-on="on" class="ma-2">
-                        {{ eisenVersions[index] }}
+                        {{ eisenVersionList[index] }}
                     </v-btn>
                 </template>
                 <v-list>
                     <v-list-item
-                            v-for="(item, idx) in eisenVersions"
+                            v-for="(item, idx) in eisenVersionList"
                             :key="idx"
                             @click="changeVersion(idx)"
                     >
@@ -37,33 +37,20 @@
 </template>
 
 <script>
-    import $ from 'jquery'
-
     export default {
         name: "TheAppBar",
         data: () => ({
-            index: 0,
-            eisenVersions: ['v0.0.2']
+            index: 0
         }),
+        props: [
+            'eisenVersionList'
+        ],
         methods: {
             changeVersion (idx) {
-                this.$emit('change-version', this.eisenVersions[idx])
-                this.index = idx
-            },
-
-            getEisenVersions: function () {
-                this.eisenVersions = [];
-
-                $.getJSON('http://builder.eisen.ai/json/versions.json', (data) => {
-                    this.eisenVersions = data
-                });
+                this.index=idx;
+                this.$emit('change-version', this.index);
             },
         },
-        created () {
-            this.getEisenVersions();
-            this.changeVersion(0);
-        },
-
     }
 </script>
 

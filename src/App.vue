@@ -2,7 +2,7 @@
   <v-app id="inspire" style=" background: rgba(0,0,0,0);">
     <the-navigation-drawer
             :drawer="drawer && eisenModules !== undefined"
-            :eisen-version="eisenVersion"
+            :eisen-version="eisenVersionList[eisenVersionIdx]"
             :eisen-modules="eisenModules"
 
             :current-phase="currentPhase"
@@ -10,6 +10,7 @@
     ></the-navigation-drawer>
 
     <the-app-bar
+            :eisen-version-list="eisenVersionList"
             v-on:navdrawer-toggle="drawer = !drawer"
             v-on:get-config="generateConfigJson()"
             v-on:change-version="changeEisenVersion($event)"
@@ -110,7 +111,8 @@
     },
 
     data: () => ({
-      eisenVersion: 'latest',
+      eisenVersionIdx: 0,
+      eisenVersionList: [''],
 
       drawer: true,
 
@@ -153,15 +155,27 @@
     created () {
       this.$vuetify.theme.dark = false;
 
-      this.getEisenModules()
+      this.getEisenVersions();
     },
     methods: {
       // methods managing the view
       getEisenModules: function () {
         this.eisenModules = undefined;
 
-        $.getJSON('http://builder.eisen.ai/json/eisen_modules_' + this.eisenVersion + '.json', (data) => {
+        console.log('http://builder.eisen.ai/json/eisen_modules_' + this.eisenVersionList[this.eisenVersionIdx] + '.json');
+
+        $.getJSON('http://builder.eisen.ai/json/eisen_modules_' + this.eisenVersionList[this.eisenVersionIdx] + '.json', (data) => {
           this.eisenModules = data
+        });
+      },
+
+      getEisenVersions: function () {
+        this.eisenVersionList = [];
+
+        $.getJSON('http://builder.eisen.ai/json/versions.json', (data) => {
+          this.eisenVersionList = data;
+
+          this.getEisenModules()
         });
       },
 
@@ -211,7 +225,7 @@
       },
 
       changeEisenVersion: function (version) {
-        this.eisenVersion = version;
+        this.eisenVersionIdx = version;
 
         this.currentTask = 'General';
         this.currentPhase = 'Hyperparameters';
