@@ -3,7 +3,7 @@
     <v-overlay
             :absolute="absolute"
             :opacity=1
-            :value="window.width < 1200 & window.height < 480"
+            :value="window.width < 1200 || window.height < 480"
     >
       <v-card>
         <v-card-text>
