@@ -1,5 +1,19 @@
 <template>
   <v-app id="inspire" style=" background: rgba(0,0,0,0);">
+    <v-overlay
+            :absolute="absolute"
+            :opacity=1
+            :value="window.width < 1200 & window.height < 480"
+    >
+      <v-card>
+        <v-card-text>
+          <p>The resolution of your screen is too low and Eisen | Builder cannot be correctly visualized.</p>
+          <p>The minimum resolution is 480 x 1200 pixels. Your browser is currently displaying {{window.height}} x {{window.width}} pixels.</p>
+          <p>Please resize your browser window or try again from a device with higher screen resolution.</p>
+        </v-card-text>
+      </v-card>
+    </v-overlay>
+
     <the-navigation-drawer
             :drawer="drawer && eisenModules !== undefined"
             :eisen-version="eisenVersionList[eisenVersionIdx]"
@@ -114,6 +128,11 @@
       eisenVersionIdx: 0,
       eisenVersionList: [''],
 
+      window: {
+        width: 0,
+        height: 0
+      },
+
       drawer: true,
 
       eisenModules: undefined,
@@ -156,6 +175,12 @@
       this.$vuetify.theme.dark = false;
 
       this.getEisenVersions();
+
+      window.addEventListener('resize', this.handleResize);
+      this.handleResize();
+    },
+    destroyed() {
+      window.removeEventListener('resize', this.handleResize)
     },
     methods: {
       // methods managing the view
@@ -233,6 +258,11 @@
         this.getEisenModules();
 
         console.log('changed eisen version to ' + version)
+      },
+
+      handleResize() {
+        this.window.width = window.innerWidth;
+        this.window.height = window.innerHeight;
       }
     }
   }
