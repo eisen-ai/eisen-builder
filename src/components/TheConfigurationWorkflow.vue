@@ -40,23 +40,21 @@
                                                                 v-if="Array.isArray(param.value)"
                                                                 :label="param.name"
                                                                 :items="param.value"
-                                                                v-model="param.actualValue"
+                                                                v-model="param.value"
                                                                 @change="$emit('config-updated', items)"
                                                         ></v-overflow-btn>
 
                                                         <v-checkbox
                                                                 v-else-if="param.type === 'bool'"
-                                                                v-model="param.actualValue"
+                                                                v-model=param.value
                                                                 :label="param.name + ' (select True/False)'"
-                                                                :false-value="param.value === 'false'"
-                                                                :true-value="param.value === 'true'"
                                                         ></v-checkbox>
 
                                                         <v-text-field
                                                                 v-else
                                                                 :label="'Parameter ' + param.name"
                                                                 :placeholder="param.type"
-                                                                v-model="param.actualValue"
+                                                                v-model="param.value"
                                                                 outlined
                                                                 @change="$emit('config-updated', items)"
                                                         ></v-text-field>

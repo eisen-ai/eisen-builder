@@ -83,7 +83,7 @@
     }
 
     else if (structure.type === 'bool') {
-      finalValue = (finalValue === 'true')
+      finalValue = (finalValue === true)
     }
 
     else if (structure.type === 'float') {
